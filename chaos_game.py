@@ -27,6 +27,7 @@ def fractal(fractal_type, n, r):
     for _ in range(round(points_number)):
         random_vertex_index = random.randint(0, n - 1)
         if fractal_type == "star" or fractal_type == "square":
+            #The currently selected vertex cannot neighbour the previously selected vertex if the two previously selected vertices are the same
             if previous_vertices[0] == previous_vertices[1] and previous_vertices[0] is not None:
                 while abs(random_vertex_index - previous_vertices[0]) == 1 or abs(random_vertex_index - previous_vertices[0]) == n - 1:
                     random_vertex_index = random.randint(0, n - 1)
@@ -47,30 +48,30 @@ if __name__ == "__main__":
     while not selected :
         selected = True
         selected_fractal = input(
-"""(1) Square
+"""(1) Sierpinski
 (2) Star
-(3) Sierpinski
+(3) Square
 Enter fractal to generate: """).lower()
         
         match selected_fractal:
             
             case "1":
-                n = 4 #Number of sides of the polygon
+                n = 3 #Number of sides of the polygon
                 r = 1/2 #How far a point jumps to a vertex. e.g. when r=1/2, the point will jump to the midpoint between it and the selected vertex
-                selected_fractal = "square"
+                selected_fractal = "sierpinski"
             case "2":
                 n = 5
                 r = 1/2
                 selected_fractal = "star"
             case "3":
-                n = 3
+                n = 4
                 r = 1/2
-                selected_fractal = "sierpinski"
+                selected_fractal = "square"
             case _:
                 print("Invalid fractal")
                 selected = False
 
-    points_number = int(input("Enter number of points to simulate (*1,000,000): ")) * 1000000
+    points_number = int(float(input("Enter number of points to simulate (*1,000,000): ")) * 1000000)
     start = time.time()
     polygon_radius = 10
     vertices_x, vertices_y = generate_polygon(n, polygon_radius)
